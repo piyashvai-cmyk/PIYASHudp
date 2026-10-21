@@ -1,0 +1,6 @@
+{
+  "name": "PIYASH LEVEL UP",
+  "description": "Professional Web & Mobile Management Panel for Free Fire Automation (2 Level & 3 Level)",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

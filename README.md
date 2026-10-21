@@ -1,11 +1,39 @@
-<div align="center">
+# PIYASH LEVEL UP — Management Panel
 
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+প্রফেশনাল ওয়েব ম্যানেজমেন্ট প্যানেল (Web & Mobile Dashboard), যা একই সাথে একাধিক অ্যাকাউন্ট পরিচালনা এবং পৃথক দুটি ক্যাটাগরি সাপোর্ট করে:
+1. **2 Level Category**: স্ট্যান্ডবাই, চ্যাট, ফ্রেন্ড রিকোয়েস্ট এবং টিম/রুম অটোমেশন।
+2. **3 Level Category**: নিরবচ্ছিন্ন লোন উলফ অটো ম্যাচমেকিং পাম্প (Continuous Lone Wolf Match Injection Pump, 5.7s লুপ)।
 
-  <h1>Built with AI Studio</h2>
+---
 
-  <p>The fastest path from prompt to production with Gemini.</p>
+## 🚀 Railway.app-এ ডিপ্লয় করার নিয়ম (Step-by-step Guide)
 
-  <a href="https://aistudio.google.com/apps">Start building</a>
+এই প্রোজেক্টটি সরাসরি Railway.app-এ এক ক্লিকে ডিপ্লয় করার উপযোগী করে তৈরি করা হয়েছে:
 
-</div>
+### ধাপ ১: GitHub-এ আপলোড
+1. Google AI Studio-র উপরের ডানদিকের মেনু থেকে **"Export to GitHub"** অথবা **"Download ZIP"** ব্যবহার করে কোডটি আপনার গিটহাব রিপোজিটরিতে পুশ করুন।
+2. নিশ্চিত করুন আপনার রিপোজিটরিতে নিচের মূল ফাইলগুলো রয়েছে:
+   - `server.py` (FastAPI ব্যাকএন্ড সার্ভার)
+   - `level2_worker.py` (2 Level বট ওয়ার্কার)
+   - `level3_worker.py` (3 Level লোন উলফ পাম্প ওয়ার্কার)
+   - `all_cmds.py` (প্রোটোকল মেসেজ ম্যাপিং)
+   - `static/` (ওয়েব ড্যাশবোর্ড UI - HTML, CSS, JS)
+   - `requirements.txt`
+   - `Procfile` ও `railway.json`
+
+### ধাপ ২: Railway.app-এ ডিপ্লয়
+1. [Railway.app](https://railway.app)-এ লগইন করুন।
+2. **"New Project"** -> **"Deploy from GitHub repo"** নির্বাচন করুন।
+3. আপনার `PIYASH LEVEL UP` রিপোজিটরিটি সিলেক্ট করুন।
+4. Railway স্বয়ংক্রিয়ভাবে `requirements.txt` ও `railway.json` শনাক্ত করে বিল্ড শুরু করবে।
+5. বিল্ড শেষ হলে **Settings** -> **Networking** -> **Generate Domain**-এ ক্লিক করে আপনার লাইভ ওয়েব ইউআরএল (Live Web URL) সংগ্রহ করুন।
+
+---
+
+## 💻 ড্যাশবোর্ড ফিচারসমূহ
+
+* **Create a New Account**: ২ লেভেল এবং ৩ লেভেল উভয় ক্যাটাগরির জন্য পৃথক অ্যাকাউন্ট তৈরি ফর্ম (UID, Password, Custom Name)।
+* **মাল্টি-ইনস্ট্যান্স প্রসেস আইসোলেশন**: প্রতিটি অ্যাকাউন্ট আলাদা সাব-প্রসেসে চলায় এক অ্যাকাউন্টের কারণে অন্য অ্যাকাউন্ট ক্র্যাশ বা স্লো হয় না।
+* **Start & Stop কন্ট্রোল**: যেকোনো সময় অ্যাকাউন্ট চালু বা বন্ধ করা যাবে।
+* **লাইভ টার্মিনাল লগ ভিউয়ার**: প্রতিটি অ্যাকাউন্টের রিয়েলটাইম প্যাকেট ও হ্যান্ডশেক লগ টার্মিনালে সরাসরি পর্যবেক্ষণ করা যায়।
+* **সার্ভার রিস্টার্ট রিকভারি**: ডেটা লোকাল `data/accounts.json`-এ সংরক্ষিত থাকে।

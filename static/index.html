@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PIYASH LEVEL UP — Management Panel</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header -->
+    <header class="header">
+      <div class="logo-area">
+        <div class="glow-orb"></div>
+        <div>
+          <h1 class="logo-title">PIYASH <span class="highlight">LEVEL UP</span></h1>
+          <p class="logo-subtitle">Multi-Account Cloud Automation & Management Core</p>
+        </div>
+      </div>
+      <div class="server-status">
+        <span class="status-dot pulse"></span>
+        <span id="serverClock">SYNCING...</span>
+      </div>
+    </header>
+
+    <!-- Stats Bar -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <span class="stat-label">TOTAL ACCOUNTS</span>
+        <span class="stat-value" id="statTotal">0</span>
+      </div>
+      <div class="stat-card active-border">
+        <span class="stat-label">ACTIVE RUNNING</span>
+        <span class="stat-value text-green" id="statRunning">0</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label">2 LEVEL ACTIVE</span>
+        <span class="stat-value text-cyan" id="statL2Running">0</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label">3 LEVEL PUMPING</span>
+        <span class="stat-value text-purple" id="statL3Running">0</span>
+      </div>
+    </div>
+
+    <!-- Category Navigation -->
+    <div class="tabs-container">
+      <button class="tab-btn active" id="tabL2" onclick="switchCategory('2_level')">
+        <span class="tab-badge">CAT 1</span>
+        2 Level Category
+        <span class="badge" id="countL2">0</span>
+      </button>
+      <button class="tab-btn" id="tabL3" onclick="switchCategory('3_level')">
+        <span class="tab-badge">CAT 2</span>
+        3 Level Category (Auto Match Pump)
+        <span class="badge" id="countL3">0</span>
+      </button>
+    </div>
+
+    <!-- Action Bar -->
+    <div class="action-bar">
+      <div>
+        <h2 class="category-heading" id="categoryTitle">2 Level Accounts</h2>
+        <p class="category-desc" id="categoryDesc">Standard bot session (Update, OAuth token, TCP chat/online socket, and match standby).</p>
+      </div>
+      <button class="btn btn-primary" onclick="openCreateModal()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+        Create a New Account
+      </button>
+    </div>
+
+    <!-- Accounts Grid -->
+    <div class="accounts-grid" id="accountsGrid">
+      <div class="loading-state">Loading accounts...</div>
+    </div>
+  </div>
+
+  <!-- Create Account Modal -->
+  <div class="modal-overlay" id="createModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div>
+          <h3 class="modal-title">Create a New Account</h3>
+          <p class="modal-subtitle" id="modalCategorySubtitle">Target: 2 Level</p>
+        </div>
+        <button class="close-btn" onclick="closeCreateModal()">&times;</button>
+      </div>
+      <form id="createAccountForm" onsubmit="handleCreateAccount(event)">
+        <div class="form-group">
+          <label for="accUid">UID (User ID) <span class="required">*</span></label>
+          <input type="number" id="accUid" class="form-input" placeholder="e.g. 794006 or 4752927952" required>
+        </div>
+        <div class="form-group">
+          <label for="accPassword">Password / Secret Key <span class="required">*</span></label>
+          <div class="password-wrapper">
+            <input type="password" id="accPassword" class="form-input" placeholder="e.g. MARUF or Token Key" required>
+            <button type="button" class="toggle-pass" onclick="togglePassVisibility()">👁</button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="accName">Custom Name (Display / Bot Owner)</label>
+          <input type="text" id="accName" class="form-input" placeholder="e.g. Piyash Master Bot" required>
+        </div>
+        <div class="form-group checkbox-group">
+          <label class="custom-checkbox">
+            <input type="checkbox" id="accAutoStart" checked>
+            <span class="checkmark"></span>
+            Start process immediately after creation
+          </label>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-secondary" onclick="closeCreateModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="btnSubmitAccount">
+            Start Account
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Terminal Live Logs Modal -->
+  <div class="modal-overlay" id="logModal">
+    <div class="modal-card modal-lg">
+      <div class="modal-header">
+        <div>
+          <h3 class="modal-title" id="logModalTitle">Session Live Terminal</h3>
+          <p class="modal-subtitle" id="logModalSubtitle">UID: ...</p>
+        </div>
+        <div class="header-actions">
+          <button class="btn btn-sm btn-secondary" onclick="copyLogs()">Copy Logs</button>
+          <button class="btn btn-sm btn-secondary" onclick="clearLocalLogs()">Clear View</button>
+          <button class="close-btn" onclick="closeLogModal()">&times;</button>
+        </div>
+      </div>
+      <div class="terminal-body" id="terminalLogs">
+        <div class="log-line text-muted">Listening for worker process output...</div>
+      </div>
+      <div class="terminal-footer">
+        <div class="terminal-indicator">
+          <span class="status-dot pulse"></span>
+          <span>Live Auto-Poll (Every 1.5s)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
